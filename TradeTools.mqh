@@ -1,9 +1,9 @@
 //+------------------------------------------------------------------+
 //|                                                   TradeTools.mq4 |
-//|                                            Copyright 2012 chew-z |
-//| Ma³a refaktoryzacja kodu                                         |
+//|                                      Copyright 2012, 2013 chew-z |
+//| To jest wersja 1.0                                               |
 //+------------------------------------------------------------------+
-#property copyright "Copyright 2012 chew-z"
+#property copyright "Copyright 2012, 2013 chew-z"
 #property link      "Trade tools 2012 chew-z"
 extern bool ECN = true;
 extern int  EMA = 60;
@@ -11,8 +11,8 @@ extern int  minPeriod = 5;
 extern int  maxPeriod = 20;
 
 extern bool    UseMoneyManagement = false;
-extern int     NofStrategies = 6;
-extern double  dollar_f = 390.0;
+extern int     NofStrategies = 4;
+extern double  dollar_f = 990.0;
 extern double  maxLots = 0.10;
 extern int     maxContracts = 1;
 
