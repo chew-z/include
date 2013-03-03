@@ -17,7 +17,7 @@ extern double  maxLots = 0.10;
 extern int     maxContracts = 1;
 
 extern int Shift = 1;
-extern int K = 5;              // filtr trendu
+extern int K = 5;              // filtr trendu -- K-tego dnia a nie po K dniach
 
 extern bool    SendAlerts = true;
 extern bool    SendNotifications   = true;        // Send iPhone notification to mobile MQL client
@@ -32,9 +32,9 @@ bool isTrending_L() { // Czy œrednia szybka powy¿ej wolnej?
 int i;
 double M;
 int sig = 0;
-   for (i = K; i>0; i--) {
-      M = iMA(NULL, PERIOD_D1, maxPeriod, i-1, MODE_EMA, PRICE_CLOSE, iBarShift(NULL,PERIOD_D1,Time[Shift],false));
-      if (iMA(NULL, PERIOD_D1, minPeriod, i-1, MODE_EMA, PRICE_CLOSE, iBarShift(NULL,PERIOD_D1,Time[Shift],false)) > M)
+   for (i = K; i>-1; i--) {   //K-tego dnia a nie po K dniach
+      M = iMA(NULL, PERIOD_D1, maxPeriod, i, MODE_EMA, PRICE_CLOSE, iBarShift(NULL,PERIOD_D1,Time[Shift],false));
+      if (iMA(NULL, PERIOD_D1, minPeriod, i, MODE_EMA, PRICE_CLOSE, iBarShift(NULL,PERIOD_D1,Time[Shift],false)) > M)
          sig++;
    }
    if(sig < K)
@@ -46,9 +46,9 @@ bool isTrending_S() { // Czy œrednia szybka poni¿ej wolnej?
 int i;
 double M;
 int sig = 0;
-   for (i = K; i>0; i--) {
-      M = iMA(NULL, PERIOD_D1, maxPeriod, i-1, MODE_EMA, PRICE_CLOSE, iBarShift(NULL,PERIOD_D1,Time[Shift],false));
-      if (iMA(NULL, PERIOD_D1, minPeriod, i-1, MODE_EMA, PRICE_CLOSE, iBarShift(NULL,PERIOD_D1,Time[Shift],false)) < M)
+   for (i = K; i>-1; i--) {  //K-tego dnia a nie po K dniach
+      M = iMA(NULL, PERIOD_D1, maxPeriod, i, MODE_EMA, PRICE_CLOSE, iBarShift(NULL,PERIOD_D1,Time[Shift],false));
+      if (iMA(NULL, PERIOD_D1, minPeriod, i, MODE_EMA, PRICE_CLOSE, iBarShift(NULL,PERIOD_D1,Time[Shift],false)) < M)
          sig++;
    }
    if(sig < K)
