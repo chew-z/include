@@ -102,6 +102,16 @@ double L, Lo, Cl, MA;
          return(true);
 return(false);
 }
+bool isPullback_L1() { // Czy rynek cofn¹³ siê od H?
+double L, Lo, Cl, MA;
+      L = iLow(NULL, PERIOD_D1, iLowest (NULL,PERIOD_D1,MODE_LOW, f_lookBackDays(), 1));
+      Lo = iLow(NULL, PERIOD_D1, iLowest (NULL,PERIOD_D1,MODE_LOW, K, 1));
+      //MA = iMA(NULL, PERIOD_D1, EMA, 0, MODE_EMA, PRICE_MEDIAN, 1);
+      Cl = iLow(NULL, PERIOD_D1, 1);
+      if (Cl > L && Close[1] <= Lo) //  Jeœli ostatnie zamkniêcie/(ew. do³ek) poni¿ej krótkoterminowego do³ka ale powy¿ej L
+         return(true);
+return(false);
+}
 bool isRecentLow_S() { // Czy rynek w ci¹gu K dni ustanawia³ ustanawia³ nowe do³ki?
 double L, Lo;
       L = iLow(NULL, PERIOD_D1, iLowest (NULL,PERIOD_D1,MODE_LOW,f_lookBackDays(), 1));
@@ -116,6 +126,15 @@ double H, Hi, Cl, MA;
       Hi = iHigh(NULL, PERIOD_D1, iHighest(NULL,PERIOD_D1,MODE_HIGH, K, 1));
       Cl = iHigh(NULL, PERIOD_D1, 1);
       if (Cl < H && Cl >= Hi) //  Jeœli ostatnie zamkniêcie/(ew. szczyt) powy¿ej krótkoterminowego szczytu ale poni¿ej H
+         return(true);
+return(false);
+}
+bool isPullback_S1() { // Czy rynek cofn¹³ siê od L?
+double H, Hi, Cl, MA;
+      H = iHigh(NULL, PERIOD_D1, iHighest(NULL,PERIOD_D1,MODE_HIGH,f_lookBackDays(),1));
+      Hi = iHigh(NULL, PERIOD_D1, iHighest(NULL,PERIOD_D1,MODE_HIGH, K, 1));
+      Cl = iHigh(NULL, PERIOD_D1, 1);
+      if (Cl < H && Close[1] >= Hi) //  Jeœli ostatnie zamkniêcie/(ew. szczyt) powy¿ej krótkoterminowego szczytu ale poni¿ej H
          return(true);
 return(false);
 }
