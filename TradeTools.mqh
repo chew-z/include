@@ -19,6 +19,9 @@ extern int     maxContracts = 1;
 extern int Shift = 1;
 extern int K = 5;              // filtr trendu -- K-tego dnia a nie po K dniach
 
+extern int SL = 20;
+extern int TP = 60;
+
 extern bool    SendAlerts = true;
 extern bool    SendNotifications   = true;        // Send iPhone notification to mobile MQL client
 extern string  AlertEmailSubject   = "MQL Alert"; // Empty subject = don't send emails
@@ -137,6 +140,18 @@ double H, Hi, Cl, MA;
       if (Cl < H && Close[1] >= Hi) //  Jeœli ostatnie zamkniêcie/(ew. szczyt) powy¿ej krótkoterminowego szczytu ale poni¿ej H
          return(true);
 return(false);
+}
+bool isBreakout_H() {
+   if ( Ask > H && ((H - Open[1]  > 20 * pips2dbl) ) )
+      return(true);
+   return(false);
+
+}
+bool isBreakout_L() {
+   if ( Bid < L && ((Open[1] - L  > 20 * pips2dbl)  ) )
+      return(true);
+   return(false);
+
 }
 /////////////////////////// STOPS & TAKE PROFITS ///////////////////////
 double f_initialStop_L() {
@@ -289,3 +304,11 @@ string TFToStr(int tf)   {
   if (tf >=     1)    return("M1");                                                                           
   return("");                                                                                                 
 }
+
+bool NewDay() {
+   if(Today!=DayOfWeek()) {
+      Today=DayOfWeek();
+      return(true);
+   }
+   return(false);
+} 
