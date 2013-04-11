@@ -27,6 +27,8 @@ extern bool    SendNotifications   = true;        // Send iPhone notification to
 extern string  AlertEmailSubject   = "MQL Alert"; // Empty subject = don't send emails
 
 int      lookBackDays = 10;
+int      Today;
+double   L, H;
 int      pips2points;
 double   pips2dbl;       // Stoploss 15 pips    0.015      0.0150
 int      Digits.pips;    // DoubleToStr(dbl/pips2dbl, Digits.pips)
