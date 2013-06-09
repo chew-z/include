@@ -9,13 +9,13 @@ extern bool ECN = false;
 extern double  maxLots = 0.10;
 extern int     maxContracts = 1;
 
-extern double   backtrack = 15; // pullback size in pips
-extern int          SL = 20;
-extern int          TP = 60;
+extern double    Pending = 12; // pullback size in pips
+extern int          SL = 25;
+extern int          TP = 18;
 
 extern bool    SendAlerts = true;
 extern bool    SendNotifications   = true;        // Send iPhone notification to mobile MQL client
-extern string  AlertEmailSubject   = ""; // Empty subject = don't send emails
+extern string  AlertEmailSubject   = "";          // Empty subject = don't send emails
 
 int         pips2points;
 double   pips2dbl;          // Stoploss 15 pips    0.015      0.0150
@@ -24,14 +24,14 @@ int         Digits.pips;      // DoubleToStr(dbl/pips2dbl, Digits.pips)
 
 bool isPullback_L() { // 
 
-      if ( Close[1] > Open[1] && Close[1] - Ask > backtrack * pips2dbl) //  Jeśli Pullback od zamknięcia świecy przekroczył X pips
+      if ( Close[1] > Open[1] && Close[1] - Ask > Pending * pips2dbl) //  Jeśli Pullback od zamknięcia świecy przekroczył X pips
          return(true);
 return(false);
 }
 
 bool isPullback_S() { // 
 
-      if (Close[1] < Open[1]  && Bid - Close[1] > backtrack * pips2dbl ) //  Jeśli Pullback od zamknięcia świecy przekroczył X pips
+      if (Close[1] < Open[1]  && Bid - Close[1] > Pending * pips2dbl ) //  Jeśli Pullback od zamknięcia świecy przekroczył X pips
          return(true);
 return(false);
 }
