@@ -9,6 +9,9 @@ extern bool ECN = false;
 extern double  maxLots = 0.10;
 extern int     maxContracts = 1;
 
+extern int T = 5; // badana liczba świec pod kątem trendu
+extern int K = 4; // liczba świec zgodnych z kierunkiem trendu
+
 extern double    Pending = 12; // pullback size in pips
 extern int          SL = 25;
 extern int          TP = 18;
@@ -33,6 +36,42 @@ bool isPullback_S() { //
 
       if (Close[1] < Open[1]  && Bid - Close[1] > Pending * pips2dbl ) //  Jeśli Pullback od zamknięcia świecy przekroczył X pips
          return(true);
+return(false);
+}
+
+bool isPullback_L1() { // 
+
+      if ( isTrend_H(T, K) && Close[1] - Ask > Pending * pips2dbl) //  Jeśli Pullback od zamknięcia świecy przekroczył X pips
+         return(true);
+return(false);
+}
+
+bool isPullback_S1() { // 
+
+      if (isTrend_L(T, K)  && Bid - Close[1] > Pending * pips2dbl ) //  Jeśli Pullback od zamknięcia świecy przekroczył X pips
+         return(true);
+return(false);
+}
+
+bool isTrend_H(int T1, int K1) { // w zakresie T1 świec powinno być K1 świec wzrostowych
+int k = 0;
+      for(int i=T1; i > 0; i--) {
+          if(Close[i] > Open[i])
+            k++;
+      }
+      if (k >= K1)
+        return(true);
+return(false);
+}
+
+bool isTrend_L(int T1, int K1) { // w zakresie T1 powinno być K1 świec spadkowych
+int k = 0;
+      for(int i=T1; i > 0; i--) {
+          if(Close[i] < Open[i])
+            k++;
+      }
+      if (k >= K1)
+        return(true);
 return(false);
 }
 
