@@ -11,6 +11,7 @@ extern int     maxContracts = 1;
 
 extern int T = 5; // badana liczba świec pod kątem trendu
 extern int K = 4; // liczba świec zgodnych z kierunkiem trendu
+extern int Interval = 45; // 
 
 extern double    Pending = 12; // pullback size in pips
 extern int          SL = 25;
