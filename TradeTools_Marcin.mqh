@@ -1,17 +1,19 @@
 //+------------------------------------------------------------------+
 //|                                           TradeTools.mq4 |
-//|                                 Copyright 2012 chew-z |
+//|                        Copyright 2012, 2013 chew-z |
 //|                                                                    |
 //+------------------------------------------------------------------+
 #property copyright "Copyright (c) 2012 chew-z"
 #property link      "Trade tools (c) 2012 chew-z"
-extern bool ECN = false;
+// extern bool ECN = false;
 extern double  maxLots = 0.10;
 extern int     maxContracts = 1;
 
-extern int T = 5; // badana liczba świec pod kątem trendu
-extern int K = 4; // liczba świec zgodnych z kierunkiem trendu
-extern int Expiration = 45; // On Stop Order Expiration
+extern int T = 5;               // badana liczba świec pod kątem trendu
+extern int K = 4;               // liczba świec zgodnych z kierunkiem trendu
+extern int Expiration = 45; // On Stop Order Expiration in minutes
+extern int Bar_size = 10;   // Minimum bar size in pips
+extern bool With_trend = true; // if true the position is in the trend direction (buy after white candle(s)), if false the position is anti-trend (sell after white candle(s))
 
 extern double    Pending = 12; // pullback size in pips - On Stop 
 extern int          SL = 25;
@@ -26,38 +28,10 @@ double   pips2dbl;          // Stoploss 15 pips    0.015      0.0150
 int         Digits.pips;      // DoubleToStr(dbl/pips2dbl, Digits.pips)
 /////////////////////////// SIGNALS ////////////////////////////////////
 
-bool isPullback_L() { // 
-
-      if ( Close[1] > Open[1] && Close[1] - Ask > Pending * pips2dbl) //  Jeśli Pullback od zamknięcia świecy przekroczył X pips
-         return(true);
-return(false);
-}
-
-bool isPullback_S() { // 
-
-      if (Close[1] < Open[1]  && Bid - Close[1] > Pending * pips2dbl ) //  Jeśli Pullback od zamknięcia świecy przekroczył X pips
-         return(true);
-return(false);
-}
-
-bool isPullback_L1() { // 
-
-      if ( isTrend_H(T, K) && Close[1] - Ask > Pending * pips2dbl) //  Jeśli Pullback od zamknięcia świecy przekroczył X pips
-         return(true);
-return(false);
-}
-
-bool isPullback_S1() { // 
-
-      if (isTrend_L(T, K)  && Bid - Close[1] > Pending * pips2dbl ) //  Jeśli Pullback od zamknięcia świecy przekroczył X pips
-         return(true);
-return(false);
-}
-
 bool isTrend_H(int T1, int K1) { // w zakresie T1 świec powinno być K1 świec wzrostowych
 int k = 0;
       for(int i=T1; i > 0; i--) {
-          if(Close[i] > Open[i])
+          if(Close[i] - Open[i] > Bar_size * pips2dbl)
             k++;
       }
       if (k >= K1)
@@ -68,7 +42,7 @@ return(false);
 bool isTrend_L(int T1, int K1) { // w zakresie T1 powinno być K1 świec spadkowych
 int k = 0;
       for(int i=T1; i > 0; i--) {
-          if(Close[i] < Open[i])
+          if(Open[i] - Close[i] > Bar_size * pips2dbl)
             k++;
       }
       if (k >= K1)
