@@ -25,10 +25,13 @@ extern int TP = 60;
 extern bool    SendAlerts = true;
 extern bool    SendNotifications   = true;        // Send iPhone notification to mobile MQL client
 extern string  AlertEmailSubject   = "MQL Alert"; // Empty subject = don't send emails
+extern int     MaxCounter             = 100; // idle counter for alerts
+extern int    rangeX                      = 50; // in trendline indicator range of backsearch for peak or valley
 
 int      lookBackDays = 10;
 int      Today;
 double   L, H;
+int counter = 0; //counter of idle ticks in alerts
 int      pips2points;
 double   pips2dbl;       // Stoploss 15 pips    0.015      0.0150
 int      Digits.pips;    // DoubleToStr(dbl/pips2dbl, Digits.pips)
@@ -314,3 +317,69 @@ bool NewDay() {
    }
    return(false);
 } 
+
+//_______________ Peaks and Valleys_______________________________
+int FindPeak() { // starts looking rangeX (extern variable) bars from 0
+
+double maxY = High[rangeX];
+int maxA = rangeX;
+
+  for (int k = rangeX; k > 0 ; k--) {
+    if(High[k] > maxY) {
+      maxA = k;
+      maxY = High[k];
+    }
+   }
+// Print("FindPeak "+maxA);
+ return (maxA);
+}
+
+int Find2Peak(int maxB) { 
+
+int K = (int) MathRound(maxB/2) + 1; // starts looking half-way (FindPeak()/2) from previous peak [only lower peaks]
+double maxY = High[1];
+int maxA = 1;
+
+  for (int k = 1; k < K; k++) {
+// Print("maxY "+maxY+" High[k] "+High[k]);
+    if(High[k] > maxY) {
+      maxA = k;
+      maxY = High[k];
+    }
+   }
+// Print("Find2Peak "+maxA);
+ return (maxA);
+}
+
+int FindValley() { // starts looking rangeX (extern variable) bars from 0
+
+double minY = Low[rangeX];
+int minA = rangeX;
+
+  for (int k = rangeX; k > 0 ; k--) {
+// Print("minY "+minY+" Low[k]" +Low[k]);
+    if(Low[k] < minY) {
+      minA = k;
+      minY = Low[k];
+    }
+   }
+// Print("FindValley " + minA);
+ return (minA);
+}
+
+int Find2Valley(int minB) { 
+
+int K = (int) MathRound(minB/2) + 1;  // starts looking half-way (FindPeak()/2) from previous peak [only lower peaks]
+double minY = Low[1];
+int minA = 1;
+
+  for (int k = 1; k < K; k++) {
+//Print("minY "+minY+" Low[k]" +Low[k]);
+    if(Low[k] < minY) {
+      minA = k;
+      minY = Low[k];
+    }
+   }
+ //Print("Find2Valley " + minA);
+ return (minA);
+}
