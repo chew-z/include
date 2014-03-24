@@ -3,8 +3,8 @@
 //|                                            Copyright 2012 chew-z |
 //| Ma³a refaktoryzacja kodu                                         |
 //+------------------------------------------------------------------+
-#property copyright "Copyright 2012 chew-z"
-#property link      "Trade tools 2012 chew-z"
+#property copyright "Copyright 2012, 2014 chew-z"
+#property link      "Trade tools 2014 chew-z"
 extern bool ECN = true;
 extern int  EMA = 60;
 extern int  minPeriod = 5;
@@ -22,11 +22,11 @@ extern int K = 5;              // filtr trendu -- K-tego dnia a nie po K dniach
 extern int SL = 20;
 extern int TP = 60;
 
-extern bool    SendAlerts = true;
-extern bool    SendNotifications   = true;        // Send iPhone notification to mobile MQL client
-extern string  AlertEmailSubject   = "MQL Alert"; // Empty subject = don't send emails
-extern int     MaxCounter             = 100; // idle counter for alerts
-extern int    rangeX                      = 50; // in trendline indicator range of backsearch for peak or valley
+extern bool    SendAlerts               = true;
+extern bool    SendNotifications     = true;        // Send iPhone notification to mobile MQL client
+extern string  AlertEmailSubject    = "MQL Alert"; // Empty subject = don't send emails
+extern int     MaxCounter               = 5; // idle counter for alerts
+extern int    rangeX                        = 100; // in trendline indicator range of backsearch for peak or valley
 
 int      lookBackDays = 10;
 int      Today;
