@@ -25,8 +25,7 @@ extern int TP = 60;
 extern bool    SendAlerts               = true;
 extern bool    SendNotifications     = true;        // Send iPhone notification to mobile MQL client
 extern string  AlertEmailSubject    = "MQL Alert"; // Empty subject = don't send emails
-extern int     MaxCounter               = 5; // idle counter for alerts
-extern int    rangeX                        = 100; // in trendline indicator range of backsearch for peak or valley
+extern int    rangeX                        = 1500; // in trendline indicator range of backsearch for peak or valley
 
 int      lookBackDays = 10;
 int      Today;
