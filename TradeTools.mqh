@@ -92,56 +92,54 @@ int sig = 0;
       return(true);
 }
 bool isRecentHigh_L() { // Czy rynek w ci¹gu K dni ustanawia³ nowe szczyty?
-double H, Hi;
-      H = iHigh(NULL, PERIOD_D1, iHighest(NULL,PERIOD_D1,MODE_HIGH,f_lookBackDays(),1));
+double Hj, Hi;
+      Hj = iHigh(NULL, PERIOD_D1, iHighest(NULL,PERIOD_D1,MODE_HIGH,f_lookBackDays(),1));
       Hi = iHigh(NULL, PERIOD_D1, iHighest(NULL,PERIOD_D1,MODE_HIGH, K,1));
-      if (Hi >= H)
+      if (Hi >= Hj)
          return(true);
 return(false);
 }
 bool isPullback_L() { // Czy rynek cofn¹³ siê od H?
-double L, Lo, Cl, MA;
-      L = iLow(NULL, PERIOD_D1, iLowest (NULL,PERIOD_D1,MODE_LOW, f_lookBackDays(), 1));
+double Lj, Lo, Cl;
+      Lj = iLow(NULL, PERIOD_D1, iLowest (NULL,PERIOD_D1,MODE_LOW, f_lookBackDays(), 1));
       Lo = iLow(NULL, PERIOD_D1, iLowest (NULL,PERIOD_D1,MODE_LOW, K, 1));
-      //MA = iMA(NULL, PERIOD_D1, EMA, 0, MODE_EMA, PRICE_MEDIAN, 1);
       Cl = iLow(NULL, PERIOD_D1, 1);
-      if (Cl > L && Cl <= Lo) //  Jeœli ostatnie zamkniêcie/(ew. do³ek) poni¿ej krótkoterminowego do³ka ale powy¿ej L
+      if (Cl > Lj && Cl <= Lo) //  Jeœli ostatnie zamkniêcie/(ew. do³ek) poni¿ej krótkoterminowego do³ka ale powy¿ej L
          return(true);
 return(false);
 }
 bool isPullback_L1() { // Czy rynek cofn¹³ siê od H?
-double L, Lo, Cl, MA;
-      L = iLow(NULL, PERIOD_D1, iLowest (NULL,PERIOD_D1,MODE_LOW, f_lookBackDays(), 1));
+double Lj, Lo, Cl;
+      Lj = iLow(NULL, PERIOD_D1, iLowest (NULL,PERIOD_D1,MODE_LOW, f_lookBackDays(), 1));
       Lo = iLow(NULL, PERIOD_D1, iLowest (NULL,PERIOD_D1,MODE_LOW, K, 1));
-      //MA = iMA(NULL, PERIOD_D1, EMA, 0, MODE_EMA, PRICE_MEDIAN, 1);
       Cl = iLow(NULL, PERIOD_D1, 1);
-      if (Cl > L && Close[1] <= Lo) //  Jeœli ostatnie zamkniêcie/(ew. do³ek) poni¿ej krótkoterminowego do³ka ale powy¿ej L
+      if (Cl > Lj && Close[1] <= Lo) //  Jeœli ostatnie zamkniêcie/(ew. do³ek) poni¿ej krótkoterminowego do³ka ale powy¿ej L
          return(true);
 return(false);
 }
 bool isRecentLow_S() { // Czy rynek w ci¹gu K dni ustanawia³ ustanawia³ nowe do³ki?
-double L, Lo;
-      L = iLow(NULL, PERIOD_D1, iLowest (NULL,PERIOD_D1,MODE_LOW,f_lookBackDays(), 1));
+double Lj, Lo;
+      Lj = iLow(NULL, PERIOD_D1, iLowest (NULL,PERIOD_D1,MODE_LOW,f_lookBackDays(), 1));
       Lo = iLow(NULL, PERIOD_D1, iLowest (NULL,PERIOD_D1,MODE_LOW, K, 1));
-      if (Lo <= L)
+      if (Lo <= Lj)
          return(true);
 return(false);
 }
 bool isPullback_S() { // Czy rynek cofn¹³ siê od L?
-double H, Hi, Cl, MA;
-      H = iHigh(NULL, PERIOD_D1, iHighest(NULL,PERIOD_D1,MODE_HIGH,f_lookBackDays(),1));
+double Hj, Hi, Cl;
+      Hj = iHigh(NULL, PERIOD_D1, iHighest(NULL,PERIOD_D1,MODE_HIGH,f_lookBackDays(),1));
       Hi = iHigh(NULL, PERIOD_D1, iHighest(NULL,PERIOD_D1,MODE_HIGH, K, 1));
       Cl = iHigh(NULL, PERIOD_D1, 1);
-      if (Cl < H && Cl >= Hi) //  Jeœli ostatnie zamkniêcie/(ew. szczyt) powy¿ej krótkoterminowego szczytu ale poni¿ej H
+      if (Cl < Hj && Cl >= Hi) //  Jeœli ostatnie zamkniêcie/(ew. szczyt) powy¿ej krótkoterminowego szczytu ale poni¿ej H
          return(true);
 return(false);
 }
 bool isPullback_S1() { // Czy rynek cofn¹³ siê od L?
-double H, Hi, Cl, MA;
-      H = iHigh(NULL, PERIOD_D1, iHighest(NULL,PERIOD_D1,MODE_HIGH,f_lookBackDays(),1));
+double Hj, Hi, Cl;
+      Hj = iHigh(NULL, PERIOD_D1, iHighest(NULL,PERIOD_D1,MODE_HIGH,f_lookBackDays(),1));
       Hi = iHigh(NULL, PERIOD_D1, iHighest(NULL,PERIOD_D1,MODE_HIGH, K, 1));
       Cl = iHigh(NULL, PERIOD_D1, 1);
-      if (Cl < H && Close[1] >= Hi) //  Jeœli ostatnie zamkniêcie/(ew. szczyt) powy¿ej krótkoterminowego szczytu ale poni¿ej H
+      if (Cl < Hj && Close[1] >= Hi) //  Jeœli ostatnie zamkniêcie/(ew. szczyt) powy¿ej krótkoterminowego szczytu ale poni¿ej H
          return(true);
 return(false);
 }
@@ -221,15 +219,15 @@ double f_Money_Management() {
 }
 /////////////////////////// POMOCNICZE /////////////////////////////////
 int f_OrdersTotal(int magic_number) {
-   int counter = 0;
+   int kounter = 0;
    int cnt = 0;
    for(cnt=OrdersTotal()-1;cnt>=0;cnt--) {
       if(OrderSelect(cnt, SELECT_BY_POS, MODE_TRADES) && OrderType() <= OP_SELL                  // check for opened position 
                                                       && OrderSymbol() == Symbol()               // check for symbol
                                                       && (OrderMagicNumber()  == magic_number) ) // my magic number                                                          
-         counter++;
+         kounter++;
    }
-   return(counter);
+   return(kounter);
 }
 
 int f_SendOrders(int mode, int contracts, double Lots, double StopLoss, double TakeProfit, int magic_number, string oComment) {
