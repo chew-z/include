@@ -33,7 +33,7 @@ double   L, H;
 int counter = 0; //counter of idle ticks in alerts
 int      pips2points;
 double   pips2dbl;       // Stoploss 15 pips    0.015      0.0150
-int      Digits.pips;    // DoubleToStr(dbl/pips2dbl, Digits.pips)
+int      Digits_pips;    // DoubleToStr(dbl/pips2dbl, Digits.pips)
 /////////////////////////// SIGNALS ////////////////////////////////////
 bool isTrending_L() { // Czy œrednia szybka powy¿ej wolnej?
 int i;
