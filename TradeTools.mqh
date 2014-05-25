@@ -7,25 +7,27 @@
 #property link      "Trade tools 2014 chew-z"
 extern bool ECN = true;
 extern int  EMA = 60;
-extern int  minPeriod = 5;
-extern int  maxPeriod = 20;
 
 extern bool    UseMoneyManagement = false;
-extern int     NofStrategies = 6;
-extern double  dollar_f = 390.0;
-extern double  maxLots = 0.10;
-extern int     maxContracts = 1;
+extern int     NofStrategies      = 1;
+extern double  dollar_f           = 1.0;
+extern double  maxLots            = 0.10;
+extern int     maxContracts       = 1;
 
-extern int Shift = 1;
-extern int K = 5;              // filtr trendu -- K-tego dnia a nie po K dniach
+extern int  minPeriod             = 5;
+extern int  maxPeriod             = 20;
+extern int Shift                  = 1;
+extern int K                      = 5;              // filtr trendu -- K-tego dnia a nie po K dniach
 
-extern int SL = 20;
-extern int TP = 60;
+extern int SL                     = 20;
+extern int TP                     = 60;
 
-extern bool    SendAlerts               = true;
-extern bool    SendNotifications     = true;        // Send iPhone notification to mobile MQL client
-extern string  AlertEmailSubject    = "MQL Alert"; // Empty subject = don't send emails
-extern int    rangeX                        = 1500; // in trendline indicator range of backsearch for peak or valley
+extern int    rangeX              = 1500; // in trendline indicator range of backsearch for peak or valley
+extern int    blindRange          = 72;   // ignore recently formed tops/bottoms
+
+extern bool    SendAlerts         = true;
+extern bool    SendNotifications  = true;        // Send iPhone notification to mobile MQL client
+extern string  AlertEmailSubject  = "MQL Alert"; // Empty subject = don't send emails
 
 int      lookBackDays = 10;
 int      Today;

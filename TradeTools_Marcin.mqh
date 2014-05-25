@@ -25,7 +25,7 @@ extern string  AlertEmailSubject   = "";          // Empty subject = don't send 
 
 int         pips2points;
 double   pips2dbl;          // Stoploss 15 pips    0.015      0.0150
-int         Digits.pips;      // DoubleToStr(dbl/pips2dbl, Digits.pips)
+int         Digits_pips;      // DoubleToStr(dbl/pips2dbl, Digits.pips)
 /////////////////////////// SIGNALS ////////////////////////////////////
 
 bool isTrend_H(int T1, int K1) { // w zakresie T1 świec powinno być K1 świec wzrostowych
