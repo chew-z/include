@@ -317,4 +317,31 @@ bool NewDay() {
    return(false);
 } 
 
+string getDeinitReasonText(int reasonCode)
+  {
+   string text="";
+//---
+   switch(reasonCode)
+     {
+      case REASON_ACCOUNT:
+         text="Account was changed";break;
+      case REASON_CHARTCHANGE:
+         text="Symbol or timeframe was changed";break;
+      case REASON_CHARTCLOSE:
+         text="Chart closed";break;
+      case REASON_PARAMETERS:
+         text="Input parameter has been changed";break;
+      case REASON_RECOMPILE:
+         text="Indicator recompiled";break;
+      case REASON_REMOVE:
+         text="Indicator removed from chart";break;
+      case REASON_CLOSE:
+         text="Terminal has been closed";break;         
+      case REASON_TEMPLATE:
+         text="New template applied to chart";break;
+      default:text="Another reason";
+     }
+//---
+   return text;
+  }
 //_______________ Peaks and Valleys_______________________________
