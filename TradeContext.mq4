@@ -13,7 +13,7 @@
 // -2 - TradeIsBusy = 1 at the moment of launch of the function, the waiting limit was exceeded
 //      (MaxWaiting_sec)
 /////////////////////////////////////////////////////////////////////////////////
-int TradeIsBusy( int MaxWaiting_sec = 60 )
+int TradeIsBusy( uint MaxWaiting_sec = 60 )
   {
     // at testing, there is no resaon to divide the trade context - just terminate
     // the function
@@ -21,13 +21,14 @@ int TradeIsBusy( int MaxWaiting_sec = 60 )
         return(1);
     //+------------------------------------------------------------------+
     // check whether it's the "end of the forex day"
-    // MM brkers tend to blackout trade at midnight
+    // MM brokers tend to blackout trade at midnight server time
     //+------------------------------------------------------------------+
     datetime dt = TimeCurrent();
     if (ECN != true && TimeHour(dt) == 0 ) {
-        Print("Waiting MM blackout at ", TimeHour(dt), ":", TimeMinute(dt));
-        while( TimeMinute(dt) < 5 ) {
-            Sleep( 1000 ); // sleep for one second
+        while( TimeMinute(dt) < 2 ) {
+            Print("Waiting out MM blackout at ", TimeHour(dt), ":", TimeMinute(dt));
+            Sleep( 5000 ); // sleep for five seconds
+            dt = TimeCurrent();
         }
     }
     //+------------------------------------------------------------------+
@@ -135,6 +136,7 @@ int TradeIsBusy( int MaxWaiting_sec = 60 )
      Sleep(1000);
      Comment("");
     }
+    return(0);
   }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -143,7 +145,7 @@ int TradeIsBusy( int MaxWaiting_sec = 60 )
 // The function sets the value of the global variable TradeIsBusy = 0.
 // If the TradeIsBusy does not exist, the function creates it.
 /////////////////////////////////////////////////////////////////////////////////
-void TradeIsNotBusy()
+int TradeIsNotBusy()
   {
     int _GetLastError;
     // at testing, there is no sense to divide the trade context - just terminate
@@ -177,4 +179,5 @@ void TradeIsNotBusy()
          }
         Sleep(100);
       }
+      return(0);
   }
