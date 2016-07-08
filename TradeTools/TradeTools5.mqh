@@ -271,20 +271,68 @@ double pipsValue(string S) {
 // returns dollar value of one pips (for FX) or (for CFD) ..
 // works for some instrumenst only, requires some improvements
     // CFD
-    if (S == "JPN225")
-        return ( Point * 1000.00/MarketInfo("USDJPY",MODE_ASK) );
-    if (S == "US500")
+    if ( S == "FJP225")
+        return ( Point * 1000.00/MarketInfo("USDJPY", MODE_ASK) );
+    if ( S == "FUS500")
+        return ( 100.0 * Point );
+    if ( S == "FUS100")
+        return ( 40.00 * Point );
+    if ( S == "FDE30")
+        return ( Point * 10.00 * MarketInfo("EURUSD", MODE_ASK) );
+    if ( S == "FGB100")
+        return ( Point * 10.00 * MarketInfo("GBPUSD", MODE_ASK) );
+    if ( S == "FEU50")
+        return ( Point * 20.00 * MarketInfo("EURUSD", MODE_ASK) );
+    if ( S == "FCN40")
+        return ( Point /  MarketInfo("USDHKD", MODE_ASK) );
+    if ( S == "FHK45")
+        return ( Point / MarketInfo("USDHKD", MODE_ASK) );
+    if ( S == "FTNOTE10")
+        return ( 10000.00  * Point); // jw. ??!
+    if ( S == "FUSD")
+        return ( 1000.00  * Point );
+    if ( S == "FBUND10")
+        return ( Point * 500.00 * MarketInfo("EURUSD", MODE_ASK) );
+    if ( S == "FEUBANKS")
+        return ( Point * 1000.00 * MarketInfo("EURUSD", MODE_ASK) );
+    if ( S == "FOAT10")
+        return ( Point * 500.00 * MarketInfo("EURUSD", MODE_ASK) );
+    if ( S == "FBTP10")
+        return ( Point * 500.00 * MarketInfo("EURUSD", MODE_ASK) );
+    if ( S == "FOIL")
+        return ( 1000.00  * Point );
+    if ( S == "FCOPPER")
+        return ( 25000.00  * Point ); // ??
+    if ( S == "FCORN")
+        return ( 150.00 * Point );
+    if ( S == "FWHEAT")
+        return ( 100.00 * Point );
+    if ( S == "FSOYBEAN")
+        return ( 50.00 * Point );
+    if ( S == "FCOTTON")
+        return ( 1000.00  * Point );
+    if ( S == "FSUGAR")
+        return ( 5600.00 * Point );
+    if ( S == "FRICE")
+        return ( 5000.00 * Point );
+    if ( S == "FCOCOA")
+        return ( 20.00 * Point );
+    if ( S == "FGOLD")
+        return ( 50.00 * Point);
+    if ( S == "US500")
         return ( 50.0 * Point );
-    if (S == "WTI")
+    if ( S == "JPN225")
+        return ( Point * 1000.00/MarketInfo("USDJPY", MODE_ASK) );
+    if ( S == "USD_I")
         return ( 1000.00  * Point );
-    if (S == "COPPER")
-        return ( 200.00  * Point );
-    if (S == "TNOTE")
+    if ( S == "TNOTE")
         return ( 20000.00  * Point ); // Should be 2000.00 but Digits=3 and double2pips is wrong
-    if (S == "USD_I")
+    if ( S == "EURBUND")
+        return ( Point * 1000.00 * MarketInfo("EURUSD", MODE_ASK) );
+    if ( S == "WTI")
         return ( 1000.00  * Point );
-    if (S == "EURBUND")
-        return ( Point * 1000.00 * MarketInfo("EURUSD",MODE_ASK) );
+    if ( S == "COPPER")
+        return ( 200.00  * Point );
     // FX
     string S1 = StringSubstr( S, 0, 3 );
     string S2 = StringSubstr( S, 3, 3 );
@@ -294,7 +342,7 @@ double pipsValue(string S) {
         return ( 1000.00/MarketInfo("USDJPY", MODE_ASK) );
     if ( S2 == "CAD")
         return ( 10.0/MarketInfo( "USDCAD", MODE_ASK) );
-
+    // and return 0 for all undefinied cases
     return (0.0);
 }
 
