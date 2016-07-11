@@ -284,11 +284,11 @@ double pipsValue(string S) {
     if ( S == "FEU50")
         return ( Point * 20.00 * MarketInfo("EURUSD", MODE_ASK) );
     if ( S == "FCN40")
-        return ( Point /  MarketInfo("USDHKD", MODE_ASK) );
+        return ( Point / MarketInfo("USDHKD", MODE_ASK) );
     if ( S == "FHK45")
         return ( Point / MarketInfo("USDHKD", MODE_ASK) );
     if ( S == "FTNOTE10")
-        return ( 10000.00  * Point); // jw. ??!
+        return ( 1000.00  * Point); // Should be 10 000.00 but ..
     if ( S == "FUSD")
         return ( 1000.00  * Point );
     if ( S == "FBUND10")
