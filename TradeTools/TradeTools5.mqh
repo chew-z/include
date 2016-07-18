@@ -3,8 +3,8 @@
 //|                                            Copyright 2014 chew-z |
 //| Duża refaktoryzacja kodu                                         |
 //+------------------------------------------------------------------+
-#property copyright "Copyright 2012, 2014 chew-z"
-#property link      "Trade tools 2014 chew-z"
+#property copyright "Copyright 2012-2016 chew-z"
+#property link      "Trade tools 2016 chew-z"
 
 input int SL                     = 20;   //StopLoss
 input int TP                     = 60;   //TakeProfit
@@ -13,13 +13,17 @@ input int TE                     = 06;   //Time Exit
 input int minBar = 20; //minimum bar size in pips
 input int End_Hour               = 22;
 
-input bool    UseMoneyManagement = true;
+input bool    UseMoneyManagement = false;
 input int     NofStrategies      = 1;
 input double  dollar_f           = 100.0;
-input int     maxContracts       = 2;
+input int     maxContracts       = 1;
 input double  maxLots            = 1.0;
+input int     MaxRisk            = 200; //Maximum risk in pips
+input float   MaxRiskPct         = 2.0; //Maximum risk w % 
+input bool    isLongAllowed      = true; // Are we allowing Long positions? 
+input bool    isShortAllowed     = true; // or Short positions?
 
-
+// Pin-pin
 input int  minPeriod             = 5;
 input int  maxPeriod             = 20;
 input int  Shift                 = 1;
@@ -354,6 +358,62 @@ double pipsValuePLN(string symbol) {
 //        return ( pipsValue(symbol) * lastprice );
 //    }
     return (pipsValue(symbol) * MarketInfo( "USDPLN", MODE_ASK));
+}
+
+double f_riskUSD(string S) {
+    // computes risk in $ for MaxRiskPct (in % of lot value)
+    // S is a Symbol()
+    string S1, S2;
+    S1 = StringSubstr(S, 0, 3 ); S2 = StringSubstr(S, 3, 3 );
+    double lotsize = MarketInfo(S, MODE_LOTSIZE);
+    double price = MarketInfo(S, MODE_ASK);
+    double riskUSD = 0.0;
+
+    if ( S1 == "USD" )
+        riskUSD = (MaxRiskPct/100.0) * lotsize;
+    if ( S2 == "USD" )
+        riskUSD = (MaxRiskPct/100.0) * lotsize * price;
+    if ( S == "FJP225")
+        riskUSD = (MaxRiskPct/100.0) * lotsize * price / MarketInfo("USDJPY", MODE_ASK);
+    if ( S == "FUS500")
+        riskUSD = (MaxRiskPct/100.0) * lotsize * price;
+    if ( S == "FTNOTE10")
+        riskUSD = (MaxRiskPct/100.0) * lotsize * price;
+    if ( S == "FDE30")
+        riskUSD = (MaxRiskPct/100.0) * lotsize * price * MarketInfo("EURUSD", MODE_ASK);
+    if ( S == "FGB100")
+        riskUSD = (MaxRiskPct/100.0) * lotsize * price * MarketInfo("GBPUSD", MODE_ASK);
+    // ... etc. 
+    riskUSD = NormalizeDouble(riskUSD, 0);
+    return (riskUSD);
+}
+
+double f_pointUSD(string S) {
+    // Computes point value in USD
+    // S is a Symbol()
+    string S1, S2;
+    S1 = StringSubstr(S, 0, 3 ); S2 = StringSubstr(S, 3, 3 );
+    double lotsize = MarketInfo(S, MODE_LOTSIZE);
+    double price = MarketInfo(S, MODE_ASK);
+    double pointUSD = 0.0;
+
+    if ( S2 == "USD" )
+        pointUSD = lotsize * Point;
+    if ( S1 == "USD" )
+        pointUSD = lotsize * Point / price;
+    if ( S == "FJP225")
+        pointUSD = lotsize * Point / MarketInfo("USDJPY", MODE_ASK);
+    if ( S == "FUS500")
+        pointUSD = lotsize * Point;
+    if ( S == "FTNOTE10")
+        pointUSD = lotsize * Point;
+    if ( S == "FDE30")
+        pointUSD = lotsize * Point * MarketInfo("EURUSD", MODE_ASK);
+    if ( S == "FGB100")
+        pointUSD = lotsize * Point * MarketInfo("GBPUSD", MODE_ASK);
+    // ... etc.
+    pointUSD = NormalizeDouble(pointUSD, 2);
+    return (pointUSD);
 }
 /////////////////////////// ORDERS /////////////////////////////////////////
 int f_SendOrders_OnLimit(int mode, int contract, double price, double Lots, double StopLoss, double TakeProfit, int magic_number, datetime expiration, string oComment) {
