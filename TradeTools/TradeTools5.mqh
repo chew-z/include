@@ -19,8 +19,8 @@ input double  dollar_f           = 100.0;
 input int     maxContracts       = 1;
 input double  maxLots            = 1.0;
 input int     MaxRisk            = 200; //Maximum risk in pips
-input float   MaxRiskPct         = 2.0; //Maximum risk w % 
-input bool    isLongAllowed      = true; // Are we allowing Long positions? 
+input float   MaxRiskPct         = 1.0; //Maximum risk w %
+input bool    isLongAllowed      = true; // Are we allowing Long positions?
 input bool    isShortAllowed     = true; // or Short positions?
 
 // Pin-pin
